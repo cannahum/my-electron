@@ -1,0 +1,30 @@
+{
+  "name": "my-electron",
+  "version": "1.0.0",
+  "description": "An electron boiler plate as rich as I can make it without an actual app inside",
+  "main": "index.js",
+  "scripts": {
+    "build-main": "webpack --config webpack.config.main.js --colors",
+    "dev": "NODE_ENV=development electron .",
+    "start": "NODE_ENV=production electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "electron",
+    "npm",
+    "node",
+    "react",
+    "typescript",
+    "webpack",
+    "electron-packager"
+  ],
+  "author": "Can Nahum",
+  "license": "ISC",
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.2.2",
+    "electron": "1.6.11",
+    "transfer-webpack-plugin": "^0.1.4",
+    "typescript": "^2.4.2"
+  },
+  "dependencies": {}
+}
