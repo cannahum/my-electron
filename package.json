@@ -24,9 +24,11 @@
   "devDependencies": {
     "awesome-typescript-loader": "^3.2.2",
     "electron": "1.6.11",
-    "electron-spellchecker": "^1.2.0",
+    "electron-rebuild": "^1.5.11",
     "transfer-webpack-plugin": "^0.1.4",
     "typescript": "^2.4.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "electron-spell-check-provider": "^1.1.0"
+  }
 }

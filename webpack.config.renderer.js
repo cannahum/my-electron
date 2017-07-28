@@ -29,7 +29,7 @@ module.exports = {
         test: /\.tsx?$/,
         loader: 'awesome-typescript-loader',
         options: {
-          configFileName: 'tsconfig.main.json'
+          configFileName: 'tsconfig.renderer.json'
         },
       }
     ]
@@ -44,7 +44,8 @@ module.exports = {
     ])
   ],
   externals: {
-    spellchecker: 'electron-spellchecker'
+    electron: `require('electron');`,
+    spellchecker: `require('electron-spell-check-provider')`,
   },
   target: 'electron-renderer'
 };

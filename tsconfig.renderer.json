@@ -51,7 +51,7 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
   "include": [
-    "src/app/**/*"
+    "src/renderer/**/*"
   ],
   "exclude": [
     "node_modules"

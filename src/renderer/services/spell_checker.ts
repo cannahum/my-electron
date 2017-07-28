@@ -1,22 +1,22 @@
-/// <reference path="../renderer.d.ts" />
-// import { SpellCheckHandler, ContextMenuListener, ContextMenuBuilder } from 'spellchecker';
-import * as spellchecker from 'spellchecker';
+/// <reference path="../renderer.d.ts"/>
+import { webFrame } from 'electron';
+var SpellCheckProvider = require('spellchecker');
 
 export class TextServices {
-  private spellChecker: spellchecker.SpellCheckHandler;
+  private spellchecker: SpellCheckProvider;
 
   constructor() {
-    this.spellChecker = window.spellCheckHandler = new spellchecker.SpellCheckHandler();
+    this.spellchecker = new SpellCheckProvider('en-US');
+    webFrame.setSpellCheckProvider('en-US', true, this.spellchecker);
+
     this.attach();
   }
 
   private attach(): void {
-    this.spellChecker.attachToInput();
-    this.spellChecker.switchLanguage('en-US');
-
-    let contextMenuBuilder = new spellchecker.ContextMenuBuilder(this.spellChecker);
-    let contextMenuListener = new spellchecker.ContextMenuListener((info: any) => {
-      contextMenuBuilder.showPopupMenu(info);
+    this.spellchecker.on('misspelling', (suggestions: string[]) => {
+      console.log('The text at the site of the cursor is misspelled.',
+        'Maybe the user meant to type:', suggestions);
     });
   }
+
 }

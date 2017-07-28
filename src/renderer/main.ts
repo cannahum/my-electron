@@ -13,7 +13,9 @@ export class RendererApp {
 
   constructor() {
     this.mainProcessBridge = new MainProcessBridge();
-    this.menuManager = new MenuManager(this.mainProcessBridge);
+    // this.men`uManager = new MenuManager(this.mainProcessBridge);
     this.textServices = new TextServices();
   }
 }
+
+(<any>window).rendererApp = new RendererApp();

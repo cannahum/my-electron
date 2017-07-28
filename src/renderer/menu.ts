@@ -1,4 +1,4 @@
-import { remote, Menu } from 'electron';
+import * as Electron from 'electron';
 import { MainProcessBridge } from './bridge';
 
 export class MenuManager {
@@ -7,8 +7,8 @@ export class MenuManager {
 
   constructor(bridge: MainProcessBridge) {
     this.mainProcessBridge = bridge;
-    this.electronMenu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(this.electronMenu);
+    this.electronMenu = Electron.Menu.buildFromTemplate(template);
+    Electron.Menu.setApplicationMenu(this.electronMenu);
   }
 }
 
