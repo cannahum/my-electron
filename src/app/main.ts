@@ -2,8 +2,6 @@ import { app, BrowserWindow } from 'electron';
 import * as url from 'url';
 import * as path from 'path';
 
-import { MenuManager } from './menu';
-
 let win: (Electron.BrowserWindow | null) = null;
 
 
@@ -20,9 +18,6 @@ function createWindow(): void {
     slashes: true
   }));
 
-  // Menus
-  let appMenus = new MenuManager(app);
-
   // open dev tools...
   if (process.env.NODE_ENV === 'development') {
     win.webContents.openDevTools();
@@ -32,6 +27,7 @@ function createWindow(): void {
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
+  win === null;
   if (process.platform !== 'darwin') {
     app.quit();
   }

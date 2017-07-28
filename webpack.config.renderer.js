@@ -7,10 +7,10 @@ var TransferWebpackPlugin = require('transfer-webpack-plugin');
 
 module.exports = {
 
-  entry: path.resolve(__dirname, 'src', 'app', 'main.ts'),
+  entry: path.resolve(__dirname, 'src', 'renderer', 'main.ts'),
 
   output: {
-    filename: 'index.main.js',
+    filename: 'index.renderer.js',
     path: __dirname + '/build'
   },
 
@@ -20,7 +20,7 @@ module.exports = {
   },
 
   // Source maps support ('inline-source-map' also works)
-  // devtool: 'source-map',
+  devtool: 'inline-source-map',
 
   // Add the loader for .ts files.
   module: {
@@ -35,7 +35,13 @@ module.exports = {
     ]
   },
   plugins: [
-    new CheckerPlugin()
+    new CheckerPlugin(),
+    new TransferWebpackPlugin([
+      {
+        from: './static/',
+        to: '.'
+      }
+    ])
   ],
-  target: 'electron-main'
+  target: 'electron-renderer'
 };

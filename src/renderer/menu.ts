@@ -1,12 +1,12 @@
-import { app, Menu } from 'electron';
+import { remote, Menu } from 'electron';
+import { MainProcessBridge } from './bridge';
 
 export class MenuManager {
-  private app: Electron.App;
   private electronMenu: Electron.Menu;
+  private mainProcessBridge: MainProcessBridge;
 
-  constructor(application: Electron.App) {
-    console.log('[MenuManager][constructor]')
-    this.app = application;
+  constructor(bridge: MainProcessBridge) {
+    this.mainProcessBridge = bridge;
     this.electronMenu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(this.electronMenu);
   }
@@ -61,7 +61,7 @@ const template: any = [
 
 if (process.platform === 'darwin') {
   template.unshift({
-    label: app.getName(),
+    label: 'remote.app.getName()',
     submenu: [
       { role: 'about' },
       { type: 'separator' },
