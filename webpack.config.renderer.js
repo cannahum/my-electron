@@ -43,5 +43,8 @@ module.exports = {
       }
     ])
   ],
+  externals: {
+    spellchecker: 'electron-spellchecker'
+  },
   target: 'electron-renderer'
 };
