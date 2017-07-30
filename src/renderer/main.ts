@@ -2,9 +2,9 @@ import { MenuManager } from './menu';
 import { MainProcessBridge } from './bridge';
 import { TextServices } from './services/spell_checker';
 
-let h: Element = document.createElement('h1');
-h.innerHTML = 'Hello world!';
-document.body.appendChild(h);
+let input: HTMLInputElement = document.createElement('input');
+input.setAttribute('type', 'text');
+document.body.appendChild(input);
 
 export class RendererApp {
   private menuManager: MenuManager;
@@ -13,7 +13,7 @@ export class RendererApp {
 
   constructor() {
     this.mainProcessBridge = new MainProcessBridge();
-    // this.men`uManager = new MenuManager(this.mainProcessBridge);
+    // this.menuManager = new MenuManager(this.mainProcessBridge);
     this.textServices = new TextServices();
   }
 }
