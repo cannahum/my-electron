@@ -15,6 +15,7 @@ export class TextServices {
     this.spellchecker = new SpellCheckProvider('en-US');
     webFrame.setSpellCheckProvider('en-US', true, this.spellchecker);
 
+    this.resetSelection();
     this.attachEvents(window);
   }
 
@@ -33,7 +34,7 @@ export class TextServices {
         let target: HTMLElement = e.target as HTMLElement;
 
         // Is this click about us? Was it on a typed text?
-        this.resetSelection();
+        // this.resetSelection();
       }
     });
 
@@ -44,52 +45,56 @@ export class TextServices {
 
       console.log('[TextServices]::contextmenu', e);
 
-      let node: HTMLElement = e.target as HTMLElement;
+      let target: HTMLElement = e.target as HTMLElement;
 
       // Is this click about us? Was it on a typed text?
       let showMenu: boolean = false;
-      while (node) {
-        if (node.nodeName.match(/^(input|textarea)$/i) || node.isContentEditable) {
+      while (target) {
+        if (target.nodeName.match(/^(input|textarea)$/i) || target.isContentEditable) {
           showMenu = true;
           break;
         }
-        node = <HTMLElement><Node>node.parentNode;
+        target = <HTMLElement><Node>target.parentNode;
       }
 
-      // show menu
-      if (showMenu) {
-        let menu: Electron.Menu = Menu.buildFromTemplate(
-          this.selection.spellingSuggestions.length ? this.selection.spellingSuggestions.map((suggestion: string) => {
-            return {
-              label: suggestion,
-              click: (e: Electron.MenuItem) => {
-                this.replaceMisspelledWord(e.label);
+      if (this.isEditableElement(target)) {
+        let node = target as EditableElement;
+        // show menu
+        if (showMenu) {
+          let menu: Electron.Menu = Menu.buildFromTemplate(
+            this.selection.spellingSuggestions.length ? this.selection.spellingSuggestions.map((suggestion: string) => {
+              return {
+                label: suggestion,
+                click: (e: Electron.MenuItem) => {
+                  this.replaceMisspelledWord(node, e.label);
+                }
               }
-            }
-          }) : [1, 2, 3].map((n) => {
-            return {
-              label: `help ${n}`,
-              click: (e: Electron.MenuItem) => {
-                this.replaceMisspelledWord(e.label);
+            }) : [1, 2, 3].map((n) => {
+              return {
+                label: `help ${n}`,
+                click: (e: Electron.MenuItem) => {
+                  this.replaceMisspelledWord(node, e.label);
+                }
               }
-            }
-          })
-        );
+            })
+          );
 
-        setTimeout(() => {
-          menu.popup(remote.getCurrentWindow());
-        }, 30);
+          setTimeout(() => {
+            menu.popup(remote.getCurrentWindow());
+          }, 30);
+        }
       }
     });
 
     this.spellchecker.on('misspelling', (suggestions: string[]) => {
-
-      if (window.getSelection().toString()) {
+      console.log('[TextServices][onmisspelling]', suggestions);
+      // if (window.getSelection().toString()) {
+        console.log('sdfsdfsd', suggestions);
         this.selection = {
           isMisspelled: true,
           spellingSuggestions: suggestions.slice(0, 6)
         }
-      }
+      // }
     });
   }
 
@@ -100,17 +105,34 @@ export class TextServices {
     }
   }
 
-  private replaceMisspelledWord(newWord: string): void {
+  private replaceMisspelledWord(node: EditableElement, newWord: string): void {
     console.log('[TextService][replaceMisspelledWord]:', newWord);
 
-    let selection: Selection, range: Range;
+    let selection: Selection;
     selection = window.getSelection();
+    console.log('[TextService][replaceMisspelledWord]:', selection);
     if (selection.rangeCount) {
-      range = selection.getRangeAt(0);
-      range.deleteContents();
-      range.insertNode(document.createTextNode(newWord));
+      let range: Range = selection.getRangeAt(0);
+      if (this.isIframe(node)) {
+        range.deleteContents();
+        range.insertNode(document.createTextNode(newWord));
+      } else {
+        node.setRangeText(newWord);
+        range.deleteContents();
+      }
+      // After the new word is inserted, the spellchecker loses every other misspelled word. So in order to keep those words marked erronous, we blur and focus; only then does the spell checker wake up again.
+      node.blur();
+      node.focus();
     }
     this.resetSelection();
+  }
+
+  private isIframe(node: HTMLElement): node is HTMLIFrameElement {
+    return node instanceof HTMLIFrameElement;
+  }
+
+  private isEditableElement(node: HTMLElement | null): node is EditableElement {
+    return node !== null && (!!node.nodeName.match(/^(input|textarea)$/i) || node.isContentEditable);
   }
 
 }

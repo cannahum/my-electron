@@ -5,6 +5,3 @@ iframe.contentDocument.body.setAttribute('contenteditable', '');
 iframe.contentDocument.body.innerHTML = `
   <div>What's up!</div>
 `;
-
-import { TextServices } from '../spell_checker';
-
