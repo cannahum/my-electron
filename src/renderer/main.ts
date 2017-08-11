@@ -1,6 +1,7 @@
 import { MenuManager } from './menu';
 import { MainProcessBridge } from './bridge';
-import { TextServices } from './services/spell_checker';
+// import { TextServices } from './services/spell_checker';
+import { TextServices } from './services/spell_check';
 
 let input1: HTMLInputElement = document.createElement('input');
 input1.setAttribute('type', 'text');
@@ -19,6 +20,8 @@ export class RendererApp {
     this.mainProcessBridge = new MainProcessBridge();
     // this.menuManager = new MenuManager(this.mainProcessBridge);
     this.textServices = new TextServices();
+
+    this.textServices.followElement(input1);
   }
 }
 

@@ -24,4 +24,10 @@ interface HTMLTextAreaElement {
   setRangeText: (input: string) => void
 }
 
-declare module 'spellchecker';
+declare module 'spellchecker' {
+  class SpellChecker {
+    static isMisspelled: (word: string) => boolean;
+    static getCorrectionsForMisspelling: (word: string) => string[];
+    [index: string]: any
+  }
+}
