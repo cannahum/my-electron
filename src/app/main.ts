@@ -22,6 +22,10 @@ function createWindow(): void {
   if (process.env.NODE_ENV === 'development') {
     win.webContents.openDevTools();
   }
+
+  win.on('closed', function () {
+		win = null;
+	})
 }
 
 app.on('ready', createWindow);
@@ -37,6 +41,7 @@ app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (win === null) {
+    console.log('should create window.');
     createWindow()
   }
 });

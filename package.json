@@ -4,6 +4,7 @@
   "description": "An electron boiler plate as rich as I can make it without an actual app inside",
   "main": "index.js",
   "scripts": {
+    "postinstall": "electron-builder install-app-deps",
     "build-main": "webpack --config webpack.config.main.js --colors",
     "build-renderer": "webpack --config webpack.config.renderer.js --colors",
     "dev": "NODE_ENV=development electron .",
@@ -25,11 +26,12 @@
     "awesome-typescript-loader": "^3.2.2",
     "electron": "1.6.11",
     "electron-rebuild": "^1.6.0",
+    "node-loader": "^0.6.0",
     "transfer-webpack-plugin": "^0.1.4",
     "typescript": "^2.4.2"
   },
   "dependencies": {
-    "electron-spell-check-provider": "^1.1.0",
+    "electron-builder": "^19.26.0",
     "spellchecker": "^3.4.1"
   }
 }

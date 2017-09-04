@@ -31,6 +31,10 @@ module.exports = {
         options: {
           configFileName: 'tsconfig.renderer.json'
         },
+      },
+      {
+        test: /\.node$/,
+        use: 'node-loader'
       }
     ]
   },
@@ -45,7 +49,7 @@ module.exports = {
   ],
   externals: {
     electron: `require('electron');`,
-    spellchecker: `require('electron-spell-check-provider')`,
+    // spellchecker: `require('electron-spell-check-provider')`,
   },
   target: 'electron-renderer'
 };

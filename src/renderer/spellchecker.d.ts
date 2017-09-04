@@ -25,9 +25,14 @@ interface HTMLTextAreaElement {
 }
 
 declare module 'spellchecker' {
-  class SpellChecker {
-    static isMisspelled: (word: string) => boolean;
-    static getCorrectionsForMisspelling: (word: string) => string[];
-    [index: string]: any
-  }
+  // class SpellChecker {
+  //   static isMisspelled: (word: string) => boolean;
+  //   static getCorrectionsForMisspelling: (word: string) => string[];
+  //   [index: string]: any
+  // }
+}
+
+
+declare interface Dictionary {
+  [index: string]: any;
 }
